@@ -94,6 +94,7 @@ public class LoginController {
 		cookieToken.setMaxAge(1800);
 		
 		System.out.println("tttttttttt");
+		System.out.println("잔디심기가ㅓ 안되요.....");
 		
 		response.addCookie(cookieToken);
 		
