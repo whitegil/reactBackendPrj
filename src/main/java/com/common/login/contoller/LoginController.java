@@ -93,12 +93,27 @@ public class LoginController {
 		cookieToken.setHttpOnly(true);
 		cookieToken.setMaxAge(1800);
 		
-		System.out.println("tttttttttt");
-		System.out.println("잔디심기가ㅓ 안되요.....");
-		
 		response.addCookie(cookieToken);
 		
 		return loginMap;
+	}
+	
+	@RequestMapping( value="/api/auth/googleLogin", method = RequestMethod.POST)
+	@ResponseBody
+	public Map googleLogin(@RequestBody Map map, HttpServletResponse response) throws Exception{
+		
+		System.out.println("구글 로그인처리~~~~ 찡");
+		
+//		Map loginMap = loginService.userLogin(map);
+//		
+//		Cookie cookieToken = new Cookie("loginToken", loginMap.get("loginToken").toString());
+//		cookieToken.setPath("/");
+//		cookieToken.setHttpOnly(true);
+//		cookieToken.setMaxAge(1800);
+//		
+//		response.addCookie(cookieToken);
+		
+		return null;
 	}
 	
 	@RequestMapping( value="/api/auth/check", method = RequestMethod.GET)
