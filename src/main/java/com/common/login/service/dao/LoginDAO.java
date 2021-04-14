@@ -32,8 +32,12 @@ public class LoginDAO {
 		return sqlSession.selectOne("com.common.login.dao.MemberDao.updateUser", map);
 	}
 
-	public int userLoginCnt(Map map) {
+	public int userLoginCnt(Map map) throws Exception {
 		return sqlSession.selectOne("com.common.login.dao.MemberDao.userLoginCnt", map);
+	}
+
+	public int updateGoogleLogin(Map map) throws Exception {
+		return sqlSession.update("com.common.login.dao.MemberDao.updateGoogleLogin", map);
 	}
 	
 }

@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.common.login.service.LoginService;
 import com.common.login.service.MemberService;
+import com.common.util.JwtUtil;
 
 @RestController
 public class LoginController {
@@ -80,8 +81,6 @@ public class LoginController {
 //		return testMap ;
 //	}
     
-    
-    
 	@RequestMapping( value="/api/auth/login", method = RequestMethod.POST)
 	@ResponseBody
 	public Map login(@RequestBody Map map, HttpServletResponse response) throws Exception{
@@ -98,13 +97,57 @@ public class LoginController {
 		return loginMap;
 	}
 	
+	@RequestMapping( value="/api/auth/logout", method = RequestMethod.POST)
+	@ResponseBody
+	public Map logout(@RequestBody Map map, HttpServletRequest request, HttpServletResponse response) throws Exception{
+		
+		Cookie[] cookies = request.getCookies();
+		Cookie loginToken = null;
+		
+		for(Cookie cookie : cookies){
+            if(cookie.getName().equals("loginToken")){
+            	loginToken = cookie;
+            }
+        }
+		
+		loginToken.setMaxAge(0);
+		response.addCookie(loginToken);
+		
+		return map;
+	}
+	
 	@RequestMapping( value="/api/auth/googleLogin", method = RequestMethod.POST)
 	@ResponseBody
 	public Map googleLogin(@RequestBody Map map, HttpServletResponse response) throws Exception{
 		
-		System.out.println("구글 로그인처리~~~~ 찡");
+		Map loginMap = loginService.updateGoogleLogin(map);
 		
-//		Map loginMap = loginService.userLogin(map);
+		Cookie cookieToken = new Cookie("loginToken", loginMap.get("loginToken").toString());
+		cookieToken.setPath("/");
+		cookieToken.setHttpOnly(true);
+		cookieToken.setMaxAge(1800);
+		
+		response.addCookie(cookieToken);
+		
+		return loginMap;
+	}
+	
+	@RequestMapping( value="/api/auth/naverLogin", method = RequestMethod.GET)
+	@ResponseBody
+	public Map naverLogin(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		
+		Map paramMap = request.getParameterMap();
+		
+		Cookie[] cookies = request.getCookies();
+		Cookie loginToken = null;
+		
+//		for(Cookie cookie : cookies){
+//            if(cookie.getName().equals("loginToken")){
+//            	loginToken = cookie;
+//            }
+//        }
+		
+//		Map loginMap = loginService.updateGoogleLogin(null);
 //		
 //		Cookie cookieToken = new Cookie("loginToken", loginMap.get("loginToken").toString());
 //		cookieToken.setPath("/");

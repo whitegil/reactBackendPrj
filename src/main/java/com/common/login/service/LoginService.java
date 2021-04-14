@@ -18,6 +18,8 @@ public interface LoginService {
 	public UserDetails loadUserByUsername(String username) throws Exception;
 
 	public Map insertUser(Map map) throws Exception;
+
+	public Map updateGoogleLogin(Map map) throws Exception;
 	
 }
 

@@ -76,6 +76,30 @@ public class LoginServiceImpl implements LoginService {
 		return null;
 	}
 
+	@Override
+	public Map updateGoogleLogin(Map map) throws Exception {
+		
+		Map resultMap = new HashMap();
+		
+		Map userInfo = (Map)map.get("userInfo");
+		Map tokenObj = (Map)userInfo.get("profileObj");
+		
+		String accessToken = userInfo.get("accessToken").toString(); 
+		String userName = tokenObj.get("name").toString();
+		String email = tokenObj.get("email").toString();
+		
+		Map userMap = new HashMap();
+		userMap.put("email", email);
+		userMap.put("userName", userName);
+		
+		int userGoogleLogin = loginDAO.updateGoogleLogin(userMap);
+		
+		String token = JwtUtil.createToken(userName, resultMap, true, null);
+		resultMap.put("loginToken", token);
+		
+		return resultMap;
+	}
+
 }
 
 
