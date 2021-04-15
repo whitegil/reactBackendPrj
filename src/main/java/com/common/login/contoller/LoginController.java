@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.common.login.service.LoginService;
 import com.common.login.service.MemberService;
@@ -118,7 +119,16 @@ public class LoginController {
 	
 	@RequestMapping( value="/api/auth/googleLogin", method = RequestMethod.POST)
 	@ResponseBody
-	public Map googleLogin(@RequestBody Map map, HttpServletResponse response) throws Exception{
+	public Map googleLogin(@RequestBody Map map, HttpServletResponse response, HttpServletRequest request) throws Exception{
+
+		Cookie[] cookies = request.getCookies();
+		Cookie loginToken = null;
+		
+		for(Cookie cookie : cookies){
+            if(cookie.getName().equals("loginToken")){
+            	loginToken = cookie;
+            }
+        }
 		
 		Map loginMap = loginService.updateGoogleLogin(map);
 		
@@ -133,30 +143,22 @@ public class LoginController {
 	}
 	
 	@RequestMapping( value="/api/auth/naverLogin", method = RequestMethod.GET)
+	public ModelAndView naverLogin(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		
+		ModelAndView test = new ModelAndView();
+		test.setViewName("test");
+		
+		return test;
+	}
+	
+	@RequestMapping( value="/api/auth/naverLoginSuccess", method = RequestMethod.PATCH)
 	@ResponseBody
-	public Map naverLogin(HttpServletRequest request, HttpServletResponse response) throws Exception{
+	public ModelAndView naverLoginSuccess(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		
-		Map paramMap = request.getParameterMap();
+		ModelAndView test = new ModelAndView();
+		test.setViewName("test");
 		
-		Cookie[] cookies = request.getCookies();
-		Cookie loginToken = null;
-		
-//		for(Cookie cookie : cookies){
-//            if(cookie.getName().equals("loginToken")){
-//            	loginToken = cookie;
-//            }
-//        }
-		
-//		Map loginMap = loginService.updateGoogleLogin(null);
-//		
-//		Cookie cookieToken = new Cookie("loginToken", loginMap.get("loginToken").toString());
-//		cookieToken.setPath("/");
-//		cookieToken.setHttpOnly(true);
-//		cookieToken.setMaxAge(1800);
-//		
-//		response.addCookie(cookieToken);
-		
-		return null;
+		return test;
 	}
 	
 	@RequestMapping( value="/api/auth/check", method = RequestMethod.GET)

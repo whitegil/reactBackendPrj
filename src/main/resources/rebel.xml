@@ -11,4 +11,11 @@
 		</dir>
 	</classpath>
 
+	<web>
+		<link target="/">
+			<dir name="C:/dev/workspace/STS/reactBackEnd/WebContent">
+			</dir>
+		</link>
+	</web>
+
 </application>
